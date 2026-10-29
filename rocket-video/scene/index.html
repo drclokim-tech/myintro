@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>AX 2700 Launch</title>
+<link rel="stylesheet" href="/node_modules/cesium/Build/Cesium/Widgets/widgets.css">
+<link rel="stylesheet" href="hud.css">
+<script>window.CESIUM_BASE_URL = '/node_modules/cesium/Build/Cesium/';</script>
+<script src="/node_modules/cesium/Build/Cesium/Cesium.js"></script>
+</head>
+<body>
+<div id="stage">
+  <div id="cesium"></div>
+  <div id="nebula"><img id="nebulaImg" alt=""><div id="nebulaMissing">NASA 성운 이미지 필요<br><small>assets/nebula.jpg</small></div></div>
+  <canvas id="fx" width="1080" height="1920"></canvas>
+  <div id="hud">
+    <header id="brand">
+      <div id="logoBox"><img id="logoImg" alt=""><span id="logoMissing">한국학중앙연구원 로고<br><small>assets/aks-logo.png</small></span></div>
+      <div id="brandName">공공 AX 네트워크</div>
+    </header>
+    <aside id="altimeter">
+      <div class="track"><div class="fill"></div></div>
+      <div class="ticks"></div>
+      <div class="marker"><span></span></div>
+    </aside>
+    <div id="center"></div>
+    <footer id="readout">
+      <div id="date">2026.01.01</div>
+      <div id="count"><span id="num">0</span><span id="unit">명</span></div>
+      <div id="alt">ALT <span id="altNum">0</span> km</div>
+    </footer>
+  </div>
+  <div id="flash"></div>
+  <div id="endcard">
+    <div id="endInf">∞</div>
+    <div id="endLogo"><img id="endLogoImg" alt=""></div>
+    <div id="endName">공공 AX 네트워크</div>
+  </div>
+</div>
+<script src="scene.js"></script>
+</body>
+</html>

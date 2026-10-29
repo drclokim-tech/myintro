@@ -1,0 +1,54 @@
+@font-face { font-family: 'Pretendard'; font-weight: 400; src: url('/node_modules/pretendard/dist/web/static/woff2/Pretendard-Regular.woff2') format('woff2'); }
+@font-face { font-family: 'Pretendard'; font-weight: 600; src: url('/node_modules/pretendard/dist/web/static/woff2/Pretendard-SemiBold.woff2') format('woff2'); }
+@font-face { font-family: 'Pretendard'; font-weight: 800; src: url('/node_modules/pretendard/dist/web/static/woff2/Pretendard-ExtraBold.woff2') format('woff2'); }
+@font-face { font-family: 'Pretendard'; font-weight: 900; src: url('/node_modules/pretendard/dist/web/static/woff2/Pretendard-Black.woff2') format('woff2'); }
+
+html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
+#stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000;
+  font-family: 'Pretendard', sans-serif; color: #fff; font-variant-numeric: tabular-nums; }
+#cesium, #cesium .cesium-viewer, #cesium .cesium-widget { position: absolute; inset: 0; width: 100%; height: 100%; }
+#cesium .cesium-viewer-bottom, #cesium .cesium-widget-credits { display: none !important; }
+
+/* NASA nebula: screen-blended over space so the rocket flies "into" it */
+#nebula { position: absolute; inset: 0; opacity: 0; mix-blend-mode: screen; pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 40%, #000 45%, transparent 100%);
+          mask-image: radial-gradient(ellipse 85% 75% at 50% 40%, #000 45%, transparent 100%); }
+#nebulaImg { position: absolute; left: 50%; top: 40%; width: 2400px; height: auto; transform-origin: center; display: none; }
+#nebulaMissing { position: absolute; left: 140px; right: 140px; top: 560px; height: 360px; border: 4px dashed #8af;
+  display: flex; align-items: center; justify-content: center; text-align: center; font-size: 48px; font-weight: 800; color: #8af; }
+#nebulaMissing small { font-size: 30px; font-weight: 400; }
+
+#fx { position: absolute; inset: 0; pointer-events: none; }
+
+#hud { position: absolute; inset: 0; pointer-events: none; }
+#brand { position: absolute; top: 110px; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 18px; opacity: 0; }
+#logoBox { height: 120px; display: flex; align-items: center; justify-content: center; }
+#logoImg { height: 120px; display: none; filter: drop-shadow(0 4px 18px rgba(0,0,0,.6)); }
+#logoMissing { border: 3px dashed #fc6; color: #fc6; padding: 10px 26px; font-size: 26px; font-weight: 600; text-align: center; line-height: 1.3; }
+#logoMissing small { font-size: 18px; font-weight: 400; }
+#brandName { font-size: 54px; font-weight: 800; letter-spacing: 2px; text-shadow: 0 4px 24px rgba(0,0,0,.8); }
+
+#altimeter { position: absolute; right: 64px; top: 520px; height: 860px; width: 120px; opacity: 0; }
+#altimeter .track { position: absolute; right: 0; top: 0; bottom: 0; width: 6px; background: rgba(255,255,255,.18); border-radius: 3px; overflow: hidden; }
+#altimeter .fill { position: absolute; left: 0; right: 0; bottom: 0; height: 0; background: linear-gradient(to top, #ff8a3d, #ffd36b 40%, #7fd6ff); }
+#altimeter .ticks div { position: absolute; right: 16px; transform: translateY(-50%); font-size: 22px; font-weight: 600; color: rgba(255,255,255,.75); white-space: nowrap; }
+#altimeter .ticks div::after { content: ''; display: inline-block; width: 14px; height: 2px; background: rgba(255,255,255,.6); vertical-align: middle; margin-left: 8px; }
+#altimeter .marker { position: absolute; right: -9px; width: 24px; height: 24px; transform: translateY(50%); bottom: 0; }
+#altimeter .marker span { display: block; width: 24px; height: 24px; border-radius: 50%; background: #fff; box-shadow: 0 0 18px 6px rgba(255,200,120,.9); }
+
+#center { position: absolute; left: 0; right: 0; top: 700px; text-align: center; font-weight: 900; opacity: 0;
+  text-shadow: 0 0 40px rgba(255,190,90,.75), 0 6px 30px rgba(0,0,0,.7); }
+
+#readout { position: absolute; left: 0; right: 0; bottom: 170px; text-align: center; opacity: 0; text-shadow: 0 4px 24px rgba(0,0,0,.85); }
+#date { font-size: 46px; font-weight: 600; letter-spacing: 4px; color: #bfe6ff; }
+#count { line-height: 1; margin-top: 6px; }
+#num { font-size: 200px; font-weight: 900; letter-spacing: -4px; }
+#unit { font-size: 80px; font-weight: 800; margin-left: 10px; }
+#alt { font-size: 34px; font-weight: 600; letter-spacing: 3px; color: rgba(255,255,255,.7); margin-top: 8px; }
+
+#flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+#endcard { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; }
+#endInf { font-size: 520px; font-weight: 800; line-height: 1; background: linear-gradient(120deg, #9fd8ff, #ffffff 45%, #ffcf8a);
+  -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 50px rgba(150,200,255,.7)); }
+#endLogo img { height: 130px; margin-top: 60px; display: none; }
+#endName { font-size: 60px; font-weight: 800; margin-top: 30px; letter-spacing: 3px; }

@@ -1,0 +1,15 @@
+{
+  "name": "ax-2700-rocket-video",
+  "version": "1.0.0",
+  "private": true,
+  "description": "공공 AX 네트워크 2,700명 돌파 축하 로켓 발사 영상 (CesiumJS, 세로형 1080x1920)",
+  "scripts": {
+    "stills": "node render.js --stills 3,12.8,19,30,43,52,58",
+    "render": "node render.js"
+  },
+  "dependencies": {
+    "cesium": "1.146.0",
+    "pretendard": "1.3.9",
+    "three-globe": "2.45.6"
+  }
+}
