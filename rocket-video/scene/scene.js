@@ -67,12 +67,13 @@ bloom.uniforms.sigma = 3.0;
 bloom.uniforms.stepSize = 1.0;
 
 const IMG = '/node_modules/three-globe/example/img/';
+let nightLayer;
 async function addImagery() {
   const day = await C.SingleTileImageryProvider.fromUrl(IMG + 'earth-blue-marble.jpg');
   const night = await C.SingleTileImageryProvider.fromUrl(IMG + 'earth-night.jpg');
   const dayLayer = viewer.imageryLayers.addImageryProvider(day);
   dayLayer.nightAlpha = 0.0;
-  const nightLayer = viewer.imageryLayers.addImageryProvider(night);
+  nightLayer = viewer.imageryLayers.addImageryProvider(night);
   nightLayer.dayAlpha = 0.0;
   nightLayer.brightness = 1.6;
 }
@@ -481,14 +482,14 @@ function cameraAt(t, rs) {
   // B/C: ground camera
   const sB = smooth(T.countdown - 0.5, T.liftoff, t);
   const groundEye = add(PAD, enuOffset(160, lerp(4, 2.0, sB), lerp(190, 125, sB)));
-  if (t < 16.0) {
+  if (t < 14.8) {
     const tgt = t < T.liftoff ? padLocal(0, 0, 34) : local2world(rs.model, 0, 0, 34);
     lookAt(groundEye, tgt, AX.u);
     return;
   }
   // D: chase camera (blends in from the ground camera)
-  const sD = smooth(16.0, 19.8, t);
-  const el = lerp(4, 52, smooth(18, 38, t)), dist = lerp(75, 125, smooth(18, 40, t));
+  const sD = smooth(14.8, 17.4, t);
+  const el = lerp(4, 52, smooth(17, 38, t)), dist = lerp(75, 125, smooth(17, 40, t));
   let az = 160;
   let elE = el, distE = dist;
   if (t >= T.reach) { // E: orbit to the front for the celebration
@@ -571,11 +572,12 @@ function updateScene(t) {
 
   // smoke
   groundSmoke.emissionRate = t > T.ignition && t < 16.5 ? 90 * ign : 0;
-  clouds.show = t < 30;
+  clouds.show = false;
   trailSmoke.modelMatrix = rs.model;
   trailSmoke.emissionRate = t > T.liftoff - 0.2 && alt < 25000 ? 120 * (1 - smooth(12000, 25000, alt)) : 0;
 
   cameraAt(t, rs);
+  nightLayer.brightness = lerp(0.25, 1.6, smooth(3e3, 6e5, camera.positionCartographic.height));
 }
 
 // ---------------------------------------------------------------- HUD
