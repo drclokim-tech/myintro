@@ -715,6 +715,11 @@ async function loadAssets() {
 }
 
 // ---------------------------------------------------------------- public API for render.js
+// SwiftShader queues GL work lazily; reading one pixel forces each frame to finish inside its own call.
+function flushGL() {
+  const gl = scene.context._gl, px = new Uint8Array(4);
+  gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
+}
 let lastT = -1;
 window.renderFrame = async function (t) {
   const jd = C.JulianDate.addSeconds(START, t, new C.JulianDate());
@@ -726,6 +731,7 @@ window.renderFrame = async function (t) {
     await new Promise((r) => setTimeout(r, 10));
     scene.render(jd);
   }
+  flushGL();
   lastT = t;
   return { t, count: Math.floor(countAt(t)) };
 };
@@ -735,6 +741,7 @@ window.simulate = async function (t) {
   viewer.clock.currentTime = jd;
   updateScene(t);
   scene.render(jd);
+  flushGL();
 };
 window.DURATION = DURATION;
 window.sceneReady = (async () => {
