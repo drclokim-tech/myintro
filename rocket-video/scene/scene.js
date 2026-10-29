@@ -431,7 +431,7 @@ function buildSmoke() {
 
 // ---------------------------------------------------------------- rocket kinematics
 const F_DIR = norm(add(mul(AX.u, 0.62), add(mul(AX.n, 0.62), mul(AX.e, -0.48)))); // heading into the unknown
-const P48 = padLocal(0, 0, countAt(T.celebrateEnd) * 1000 + 6000 * (T.celebrateEnd - T.reach));
+const P48 = padLocal(0, 0, GOAL * 1000 + 6000 * (T.celebrateEnd - T.reach));
 function rocketState(t) {
   let pos, zAxis;
   if (t < T.reach) {
@@ -443,7 +443,7 @@ function rocketState(t) {
   } else {
     const s = smooth(T.celebrateEnd, T.turnEnd, t);
     zAxis = norm(vlerp(AX.u, F_DIR, s));
-    const cruise = 6000 * Math.min(t - T.celebrateEnd, T.turnEnd - T.celebrateEnd) * 0.8;
+    const cruise = 40 * Math.min(t - T.celebrateEnd, T.turnEnd - T.celebrateEnd);
     const away = t > T.turnEnd ? 60 * (Math.exp(1.45 * (t - T.turnEnd)) - 1) : 0;
     pos = add(P48, add(mul(norm(vlerp(AX.u, F_DIR, 0.5)), cruise), mul(F_DIR, away)));
   }
@@ -503,15 +503,17 @@ function cameraAt(t, rs) {
     return;
   }
   // F: swing behind the rocket, then hold while it races into the nebula
-  const sF = smooth(T.celebrateEnd, T.turnEnd + 0.4, t);
   const side = norm(cross(F_DIR, AX.u));
   const upF = norm(cross(side, F_DIR));
-  const tf = Math.min(t, T.turnEnd + 0.4);
-  const rsHold = rocketState(tf);
-  const cHold = local2world(rsHold.model, 0, 0, CENTER);
-  const behind = add(cHold, add(mul(F_DIR, -95), add(mul(upF, 14), mul(side, 6))));
-  const eEye = add(local2world(rocketState(T.celebrateEnd).model, 0, 0, CENTER), enuOffset(300, 8, 105));
-  const eye = vlerp(eEye, behind, sF);
+  const eyeAt = (tt) => {
+    const s = smooth(T.celebrateEnd, T.turnEnd + 0.4, tt);
+    const c = local2world(rocketState(tt).model, 0, 0, CENTER);
+    const o0 = enuOffset(300, 8, 105), o1 = add(mul(F_DIR, -95), add(mul(upF, 14), mul(side, 6)));
+    const len = lerp(C.Cartesian3.magnitude(o0), C.Cartesian3.magnitude(o1), s);
+    return add(c, mul(norm(vlerp(o0, o1, s)), len));
+  };
+  const sF = smooth(T.celebrateEnd, T.turnEnd + 0.4, t);
+  const eye = eyeAt(Math.min(t, T.turnEnd + 0.4));
   const lookTarget = vlerp(center, add(eye, mul(F_DIR, 1000)), smooth(T.turnEnd - 1, T.turnEnd + 0.6, t));
   lookAt(eye, lookTarget, norm(vlerp(AX.u, upF, sF)));
 }
@@ -636,7 +638,7 @@ function updateHud(t) {
   } else if (t >= T.reach && t < T.celebrateEnd) {
     const f = t - T.reach;
     center.textContent = '축하!';
-    center.style.fontSize = '300px'; center.style.top = '640px';
+    center.style.fontSize = '300px'; center.style.top = '960px';
     center.style.opacity = smooth(0, 0.15, f) * (1 - smooth(5.2, 6.0, f));
     const pop = f < 0.5 ? 0.4 + 0.75 * Math.sin(clamp(f / 0.5) * Math.PI / 2) + 0.15 * Math.sin(clamp(f / 0.5) * Math.PI) : 1.0 + 0.03 * Math.sin(f * 6);
     center.style.transform = `scale(${pop})`;
