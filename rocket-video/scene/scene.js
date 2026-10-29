@@ -420,7 +420,7 @@ function buildSmoke() {
     updateCallback: drag(0.35, 2.5),
   }));
   trailSmoke = scene.primitives.add(new C.ParticleSystem({
-    image: img, sizeInMeters: true, imageSize: new C.Cartesian2(10, 10), startScale: 1.0, endScale: 9.0,
+    image: img, sizeInMeters: true, imageSize: new C.Cartesian2(20, 20), startScale: 1.0, endScale: 6.0,
     startColor: new C.Color(1.0, 0.7, 0.45, 0.6), endColor: new C.Color(0.45, 0.46, 0.52, 0.0),
     minimumParticleLife: 3, maximumParticleLife: 6, minimumSpeed: 30, maximumSpeed: 60, emissionRate: 0,
     emitter: new C.ConeEmitter(rad(12)), modelMatrix: PAD_FRAME,
@@ -569,14 +569,14 @@ function updateScene(t) {
   glowBB.color = new C.Color(1, sep ? 0.85 : 0.75, sep ? 0.85 : 0.5, gI * 0.95);
   glowFarBB.position = nozzle;
   const far = smooth(T.turnEnd + 0.5, T.turnEnd + 2.5, t);
-  glowFarBB.color = new C.Color(0.85, 0.9, 1, far * fadeOut);
-  glowFarBB.width = glowFarBB.height = 70 + 30 * smooth(53, 57, t);
+  glowFarBB.color = new C.Color(1, 0.97, 0.92, far * fadeOut);
+  glowFarBB.width = glowFarBB.height = 90 + 50 * smooth(53, 57, t);
 
   // smoke
   groundSmoke.emissionRate = t > T.ignition && t < 16.5 ? 90 * ign : 0;
   clouds.show = false;
   trailSmoke.modelMatrix = rs.model;
-  trailSmoke.emissionRate = t > T.liftoff - 0.2 && alt < 25000 ? 120 * (1 - smooth(12000, 25000, alt)) : 0;
+  trailSmoke.emissionRate = t > T.liftoff - 0.2 && alt < 25000 ? 220 * (1 - smooth(12000, 25000, alt)) : 0;
 
   cameraAt(t, rs);
   nightLayer.brightness = lerp(0.25, 1.6, smooth(3e3, 6e5, camera.positionCartographic.height));

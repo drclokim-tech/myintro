@@ -22,8 +22,8 @@ html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
 
 #hud { position: absolute; inset: 0; pointer-events: none; }
 #brand { position: absolute; top: 110px; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 18px; opacity: 0; }
-#logoBox { height: 120px; display: flex; align-items: center; justify-content: center; }
-#logoImg { height: 120px; display: none; filter: drop-shadow(0 4px 18px rgba(0,0,0,.6)); }
+#logoBox { height: 150px; display: flex; align-items: center; justify-content: center; }
+#logoImg { height: 150px; display: none; filter: drop-shadow(0 4px 18px rgba(0,0,0,.6)); }
 #logoMissing { border: 3px dashed #fc6; color: #fc6; padding: 10px 26px; font-size: 26px; font-weight: 600; text-align: center; line-height: 1.3; }
 #logoMissing small { font-size: 18px; font-weight: 400; }
 #brandName { font-size: 54px; font-weight: 800; letter-spacing: 2px; text-shadow: 0 4px 24px rgba(0,0,0,.8); }
